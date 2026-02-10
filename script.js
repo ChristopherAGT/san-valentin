@@ -1,5 +1,5 @@
 // 🔴 CAMBIA ESTA FECHA POR LA TUYA
-const startDate = new Date("2024-02-09T00:00:00");
+const startDate = new Date("2026-02-09T00:00:00");
 
 function updateCounter() {
   const now = new Date();
