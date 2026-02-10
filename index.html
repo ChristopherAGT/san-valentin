@@ -1,36 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Para mi San Valentín ❤️</title>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Historia ❤️</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="hearts-bg"></div>
+    <div class="background-hearts" id="bg-hearts"></div>
 
-  <div class="card">
-    <div class="text-section">
-      <div id="typed-text">
-        <p id="l1"></p>
-        <p id="l2"></p>
-        <p id="l3"></p>
-        <p id="l4" class="signature"></p>
-      </div>
+    <main class="card">
+        
+        <section class="content-left">
+            <div class="message-container">
+                <h1 id="line1" class="typing-container"></h1>
+                <p id="line2" class="typing-container"></p>
+                <p id="line3" class="typing-container"></p>
+                <p id="line4" class="signature typing-container"></p>
+            </div>
 
-      <div class="counter-container">
-        <p>Mi amor por ti comenzó hace...</p>
-        <div id="timer"></div>
-      </div>
-    </div>
+            <div class="timer-wrapper">
+                <p class="timer-label">Mi amor por ti comenzó hace...</p>
+                <div id="counter" class="counter-numbers">
+                    <span class="loading">Iniciando cronómetro...</span>
+                </div>
+            </div>
+        </section>
 
-    <div class="tree-container">
-      <div class="trunk"></div>
-      <div class="tree-hearts" id="foliage"></div>
-    </div>
-  </div>
+        <section class="content-right">
+            <div class="tree-canvas">
+                <div class="tree-trunk" id="trunk"></div>
+                <div class="tree-foliage" id="foliage"></div>
+            </div>
+        </section>
 
-  <script src="script.js"></script>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
