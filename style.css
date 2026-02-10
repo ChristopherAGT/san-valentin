@@ -1,0 +1,59 @@
+body {
+  background: #ff5f9e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Dancing Script', cursive;
+  overflow: hidden;
+}
+
+.card {
+  background: #fff2e9;
+  width: 720px;
+  padding: 30px;
+  border-radius: 20px;
+  display: flex;
+  gap: 30px;
+  z-index: 2;
+}
+
+.text {
+  width: 60%;
+  font-size: 22px;
+}
+
+.love {
+  font-weight: bold;
+}
+
+.time {
+  margin-top: 20px;
+}
+
+/* Corazón grande */
+.heart {
+  width: 200px;
+  height: 200px;
+  background: red;
+  position: relative;
+  transform: rotate(-45deg);
+  margin-top: 40px;
+}
+
+.heart::before,
+.heart::after {
+  content: "";
+  width: 200px;
+  height: 200px;
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.heart::before {
+  top: -100px;
+  left: 0;
+}
+
+.heart::
