@@ -1,113 +1,85 @@
-// 1. FECHA DE INICIO
-const fechaInicio = new Date("2024-02-19T00:00:00");
+const canvas = document.getElementById('treeCanvas');
+const ctx = canvas.getContext('2d');
 
-// 2. TEXTOS
-const mensajes = [
-    { id: "line1", text: "Para el amor de mi vida:" },
-    { id: "line2", text: "Si pudiera elegir un lugar seguro, sería a tu lado." },
-    { id: "line3", text: "Cuanto más tiempo estoy contigo, más te amo." },
-    { id: "line4", text: "— I Love You!" }
-];
+// --- 1. CONFIGURACIÓN DEL ÁRBOL ---
+function init() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    // Ajustar posición según pantalla
+    let treeX = window.innerWidth > 768 ? canvas.width * 0.70 : canvas.width / 2;
+    let treeY = canvas.height - 20;
+    let branchLen = window.innerWidth > 768 ? 120 : 80;
 
-/* ================================
-   TEXTO ESCRIBIÉNDOSE
-================================ */
-function escribirTexto(index) {
-    if (index >= mensajes.length) return;
-
-    const info = mensajes[index];
-    const el = document.getElementById(info.id);
-    let i = 0;
-
-    const intervalo = setInterval(() => {
-        el.textContent += info.text[i];
-        i++;
-
-        if (i === info.text.length) {
-            clearInterval(intervalo);
-            setTimeout(() => escribirTexto(index + 1), 600);
-        }
-    }, 60);
+    drawTree(treeX, treeY, branchLen, 0, 12);
 }
 
-/* ================================
-   ÁRBOL DE CORAZONES
-================================ */
-function florecerArbol() {
-    const follaje = document.getElementById("foliage");
-    const total = 80;
+function drawTree(startX, startY, len, angle, branchWidth) {
+    ctx.beginPath();
+    ctx.save();
+    ctx.strokeStyle = "#4b2c20"; // Color tronco
+    ctx.lineWidth = branchWidth;
+    ctx.translate(startX, startY);
+    ctx.rotate(angle * Math.PI / 180);
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, -len);
+    ctx.stroke();
 
-    for (let i = 0; i < total; i++) {
-        setTimeout(() => {
-            const corazon = document.createElement("div");
-            corazon.classList.add("leaf");
-            corazon.textContent = "❤️";
+    if (len < 10) {
+        drawHeart(0, -len, 10); // Dibuja corazón en la punta
+        ctx.restore();
+        return;
+    }
 
-            // Forma de copa
-            const angle = Math.random() * Math.PI * 2;
-            const radius = Math.random() * 110;
-            const x = Math.cos(angle) * radius + 150;
-            const y = Math.sin(angle) * (radius * 0.8) + 120;
+    // Ramificaciones recursivas
+    drawTree(0, -len, len * 0.75, angle - 20, branchWidth * 0.7);
+    drawTree(0, -len, len * 0.75, angle + 20, branchWidth * 0.7);
 
-            corazon.style.left = `${x}px`;
-            corazon.style.top = `${y}px`;
-            corazon.style.fontSize = `${Math.random() * 15 + 12}px`;
-            corazon.style.animationDelay = `${Math.random() * 0.5}s`;
+    ctx.restore();
+}
 
-            follaje.appendChild(corazon);
-        }, i * 35);
+function drawHeart(x, y, size) {
+    ctx.beginPath();
+    ctx.fillStyle = Math.random() > 0.5 ? "#ff4d6d" : "#c9184a";
+    ctx.moveTo(x, y);
+    ctx.bezierCurveTo(x, y - 3, x - size, y - size, x - size, y);
+    ctx.bezierCurveTo(x - size, y + size, x, y + size, x, y + size * 1.5);
+    ctx.bezierCurveTo(x, y + size, x + size, y + size, x + size, y);
+    ctx.bezierCurveTo(x + size, y - size, x, y - size, x, y);
+    ctx.fill();
+}
+
+// --- 2. CONTADOR DE TIEMPO ---
+// ¡CAMBIA ESTA FECHA! Formato: Año, Mes (0-11), Día, Hora, Min
+const startDate = new Date(2023, 1, 14, 17, 15); 
+
+function updateCounter() {
+    const now = new Date();
+    const diff = now - startDate;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const mins = Math.floor((diff / (1000 * 60)) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+
+    document.getElementById('counter').innerHTML = 
+        `Nuestro amor comenzó hace...<br>${days}d ${hours}h ${mins}m ${secs}s`;
+}
+
+// --- 3. EFECTO DE ESCRITURA ---
+const message = "Para el amor de mi vida: \nSi pudiera elegir un lugar seguro, sería a tu lado. Cuanto más tiempo paso contigo, más te amo.";
+let i = 0;
+
+function typeWriter() {
+    if (i < message.length) {
+        document.getElementById("typing-text").innerHTML += message.charAt(i);
+        i++;
+        setTimeout(typeWriter, 50);
     }
 }
 
-/* ================================
-   CONTADOR
-================================ */
-function actualizarContador() {
-    const ahora = new Date();
-    const diff = ahora - fechaInicio;
-
-    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutos = Math.floor((diff / (1000 * 60)) % 60);
-    const segundos = Math.floor((diff / 1000) % 60);
-
-    document.getElementById("counter").innerHTML =
-        `${dias} días ${horas.toString().padStart(2, "0")} horas ` +
-        `${minutos.toString().padStart(2, "0")} minutos ` +
-        `${segundos.toString().padStart(2, "0")} segundos`;
-}
-
-/* ================================
-   LLUVIA DE CORAZONES
-================================ */
-function lluviaCorazones() {
-    const bg = document.getElementById("bg-hearts");
-    const heart = document.createElement("div");
-
-    heart.classList.add("falling-heart");
-    heart.textContent = "❤️";
-
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = Math.random() * 20 + 10 + "px";
-    heart.style.animationDuration = Math.random() * 3 + 3 + "s";
-    heart.style.opacity = Math.random();
-
-    bg.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 7000);
-}
-
-/* ================================
-   INICIO
-================================ */
-window.onload = () => {
-    actualizarContador();
-    setInterval(actualizarContador, 1000);
-    setInterval(lluviaCorazones, 400);
-
-    // Espera a que el tronco termine de crecer
-    setTimeout(() => {
-        florecerArbol();
-        setTimeout(() => escribirTexto(0), 800);
-    }, 2000);
-};
+// Inicializar todo
+window.addEventListener('resize', init);
+init();
+typeWriter();
+setInterval(updateCounter, 1000);
