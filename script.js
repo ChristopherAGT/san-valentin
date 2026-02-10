@@ -1,73 +1,68 @@
-// 1. Configuración del texto y efecto "Typewriter"
-const messages = [
-  { id: "line1", text: "Para el amor de mi vida:" },
-  { id: "line2", text: "Si pudiera elegir un lugar seguro, sería a tu lado." },
-  { id: "line3", text: "Cuanto más tiempo estoy contigo, más te amo." },
-  { id: "line4", text: "— I Love You!" }
+const startDate = new Date("2024-02-19T00:00:00"); // Pon tu fecha aquí
+
+const lines = [
+    { id: "l1", text: "Para el amor de mi vida:" },
+    { id: "l2", text: "Si pudiera elegir un lugar seguro, sería a tu lado." },
+    { id: "l3", text: "Cuanto más tiempo estoy contigo, más te amo." },
+    { id: "l4", text: "— I Love You!" }
 ];
 
-function typeWriter(elementId, text, speed, callback) {
-  let i = 0;
-  const element = document.getElementById(elementId);
-  
-  function type() {
-    if (i < text.length) {
-      element.innerHTML += text.charAt(i);
-      i++;
-      setTimeout(type, speed);
-    } else if (callback) {
-      callback();
+// Función de escritura
+function typeLine(index) {
+    if (index >= lines.length) return;
+    
+    let charIndex = 0;
+    const { id, text } = lines[index];
+    const element = document.getElementById(id);
+    
+    const interval = setInterval(() => {
+        element.textContent += text[charIndex];
+        charIndex++;
+        if (charIndex === text.length) {
+            clearInterval(interval);
+            setTimeout(() => typeLine(index + 1), 500);
+        }
+    }, 50);
+}
+
+// Crear el follaje del árbol
+function createTree() {
+    const foliage = document.getElementById("foliage");
+    for (let i = 0; i < 60; i++) {
+        setTimeout(() => {
+            const heart = document.createElement("div");
+            heart.classList.add("leaf-heart");
+            heart.innerHTML = "❤️";
+            
+            // Posicionamiento aleatorio en forma de círculo/corazón
+            const x = Math.random() * 200 - 100;
+            const y = Math.random() * -150;
+            
+            heart.style.left = `calc(50% + ${x}px)`;
+            heart.style.top = `${150 + y}px`;
+            heart.style.fontSize = `${Math.random() * 15 + 10}px`;
+            
+            foliage.appendChild(heart);
+        }, i * 50); // Aparecen uno por uno
     }
-  }
-  type();
 }
 
-// Iniciar secuencia de escritura
-function startAnimations() {
-  typeWriter(messages[0].id, messages[0].text, 70, () => {
-    typeWriter(messages[1].id, messages[1].text, 50, () => {
-      typeWriter(messages[2].id, messages[2].text, 50, () => {
-        typeWriter(messages[3].id, messages[3].text, 100);
-      });
-    });
-  });
+// Actualizar cronómetro
+function updateTimer() {
+    const now = new Date();
+    const diff = now - startDate;
+    
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const m = Math.floor((diff / (1000 * 60)) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+    
+    document.getElementById("timer").textContent = `${d}d ${h}h ${m}m ${s}s`;
 }
 
-// 2. Contador de tiempo real
-const startDate = new Date("2024-02-19T00:00:00"); // Pon tu fecha real aquí
-
-function updateCounter() {
-  const now = new Date();
-  const diff = now - startDate;
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
-
-  document.getElementById("counter").innerHTML = 
-    `${days}d ${hours}h ${minutes}m ${seconds}s`;
-}
-
-// 3. Lluvia de corazones
-function createFallingHeart() {
-  const heart = document.createElement("div");
-  heart.classList.add("falling-heart");
-  heart.innerHTML = "❤️";
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.animationDuration = Math.random() * 3 + 2 + "s";
-  heart.style.opacity = Math.random() * 0.7 + 0.3;
-  
-  document.getElementById("hearts-bg").appendChild(heart);
-
-  setTimeout(() => heart.remove(), 5000);
-}
-
-// Iniciar todo al cargar
+// Iniciar todo
 window.onload = () => {
-  startAnimations();
-  setInterval(updateCounter, 1000);
-  setInterval(createFallingHeart, 400);
+    createTree();
+    setTimeout(() => typeLine(0), 1500); // El texto empieza después del árbol
+    setInterval(updateTimer, 1000);
 };
-}, 300);
-//
