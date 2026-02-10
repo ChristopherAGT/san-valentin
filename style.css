@@ -1,181 +1,84 @@
-/* --- Variables de Color --- */
-:root {
-  --rosa-fondo: #ff5f9e;
-  --crema-tarjeta: #fff2e9;
-  --rojo-corazon: #ff0000;
-  --marron-tronco: #5d4037;
-  --texto-oscuro: #333;
-}
-
-/* --- Base y Fondo Animado --- */
 body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(-45deg, #ff5f9e, #ff8eb3, #ffb3d1, #ff5f9e);
-  background-size: 400% 400%;
-  animation: fondoMovimiento 10s ease infinite;
-  font-family: 'Dancing Script', cursive;
-  overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background-color: #fdf5f2; /* Fondo crema suave */
+    font-family: 'Georgia', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
 }
 
-@keyframes fondoMovimiento {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    flex-direction: row; /* Diseño para PC */
 }
 
-/* --- La Tarjeta --- */
-.card {
-  background-color: var(--crema-tarjeta);
-  width: 850px;
-  height: 500px;
-  border-radius: 40px;
-  display: flex;
-  padding: 40px;
-  box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-  position: relative;
-  z-index: 10;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+#treeCanvas {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 }
 
-/* --- Sección Izquierda (Texto) --- */
-.content-left {
-  flex: 1.2;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-right: 20px;
+.message-box {
+    position: relative;
+    z-index: 10;
+    padding: 30px;
+    margin-left: 5%;
+    max-width: 450px;
+    align-self: center;
+    background: rgba(253, 245, 242, 0.6); /* Transparencia para ver el árbol detrás */
+    border-radius: 20px;
 }
 
-.message-container h1 {
-  font-size: 2.2rem;
-  color: var(--texto-oscuro);
-  margin-bottom: 20px;
-  min-height: 40px;
+#typing-text {
+    font-size: 1.6rem;
+    line-height: 1.5;
+    color: #4a4a4a;
+    margin-bottom: 25px;
+    min-height: 100px;
 }
 
-.message-container p {
-  font-size: 1.5rem;
-  color: #555;
-  margin: 10px 0;
-  min-height: 30px;
+#counter {
+    font-size: 1.1rem;
+    color: #e63946;
+    font-weight: bold;
+    line-height: 1.8;
 }
 
 .signature {
-  color: #d63384 !important;
-  font-weight: bold;
-  font-size: 1.8rem !important;
+    margin-top: 20px;
+    font-size: 1.4rem;
+    font-style: italic;
+    color: #c9184a;
+    opacity: 0;
+    animation: fadeIn 2s forwards 5s; /* Aparece después del texto */
 }
 
-/* --- Contador --- */
-.timer-wrapper {
-  margin-top: 30px;
-  border-top: 2px solid rgba(0,0,0,0.05);
-  padding-top: 20px;
+@keyframes fadeIn {
+    to { opacity: 1; }
 }
 
-.timer-label {
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.9rem;
-  color: #888;
-  margin: 0;
-}
-
-.counter-numbers {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: var(--rojo-corazon);
-}
-
-/* --- Sección Derecha (Árbol) --- */
-.content-right {
-  flex: 0.8;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-/* Lienzo del árbol */
-.tree-canvas {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-/* --- Tronco --- */
-.tree-trunk {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 18px;
-  height: 0;
-  background-color: var(--marron-tronco);
-  border-radius: 12px;
-  animation: crecerTronco 2.5s forwards ease-in-out;
-  z-index: 2;
-}
-
-@keyframes crecerTronco {
-  to { height: 180px; }
-}
-
-/* --- Follaje del Árbol --- */
-.tree-foliage {
-  position: absolute;
-  bottom: 170px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 280px;
-  height: 240px;
-  pointer-events: none;
-}
-
-/* Corazones-hoja */
-.leaf {
-  position: absolute;
-  font-size: 18px;
-  color: var(--rojo-corazon);
-  opacity: 0;
-  transform: scale(0);
-  animation: brotarHoja 0.8s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes brotarHoja {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* --- Lluvia de Corazones de Fondo --- */
-.background-hearts {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.falling-heart {
-  position: absolute;
-  top: -20px;
-  animation: caer linear forwards;
-}
-
-@keyframes caer {
-  to {
-    transform: translateY(110vh) rotate(360deg);
-  }
+/* Adaptación para Celulares */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .message-box {
+        margin-left: 0;
+        margin-top: 40px;
+        max-width: 90%;
+        text-align: center;
+        align-self: center;
+    }
+    #typing-text { font-size: 1.2rem; }
+    #counter { font-size: 0.9rem; }
 }
