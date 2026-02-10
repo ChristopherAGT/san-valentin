@@ -3,49 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestra Historia ❤️</title>
-
-    <!-- Fuentes -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
-
-    <!-- Estilos -->
+    <title>Para el amor de mi vida</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!-- Lluvia de corazones -->
-    <div class="background-hearts" id="bg-hearts" aria-hidden="true"></div>
-
-    <main class="card">
-
-        <!-- Texto -->
-        <section class="content-left">
-            <div class="message-container">
-                <h1 id="line1" class="typing-container"></h1>
-                <p id="line2" class="typing-container"></p>
-                <p id="line3" class="typing-container"></p>
-                <p id="line4" class="signature typing-container"></p>
-            </div>
-
-            <div class="timer-wrapper">
-                <p class="timer-label">Mi amor por ti comenzó hace...</p>
-                <div id="counter" class="counter-numbers">
-                    <span class="loading">Iniciando cronómetro...</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Árbol -->
-        <section class="content-right">
-            <div class="tree-canvas">
-                <div class="tree-trunk"></div>
-                <div class="tree-foliage" id="foliage"></div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Script -->
+    <div class="container">
+        <canvas id="treeCanvas"></canvas>
+        
+        <div class="message-box">
+            <div id="typing-text"></div>
+            <div id="counter"></div>
+            <p class="signature">— I Love You! ❤️</p>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
